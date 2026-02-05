@@ -338,6 +338,8 @@ void ABoard::ResetBoard()
 
 	pieceCount = 0;
 
+	actualFallSpeed = slowFallSpeed;
+
 	grid->ResetGrid();
 
 	for (ABlock* b : movingBlocks)

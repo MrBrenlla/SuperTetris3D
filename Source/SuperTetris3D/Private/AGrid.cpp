@@ -12,10 +12,10 @@ void AGrid::initializeGrid(int width, int height)
 
 	if (!blocksInGrid.IsEmpty()) blocksInGrid.Empty();
 
-	blocksInGrid.SetNum(width* (height+5));
+	blocksInGrid.SetNum(width * (height + 5));
 
-	lineCount.SetNum(height+5);
-	for (int j = 0; j < height+5; j++)
+	lineCount.SetNum(height + 5);
+	for (int j = 0; j < height + 5; j++)
 	{
 		lineCount[j] = 0;
 	}
@@ -80,7 +80,7 @@ TArray<ABlock*> AGrid::FreeLine(int line)
 		int index = gridIndex(x, line);
 		ABlock* b = blocksInGrid[index];
 		if (b != nullptr)
-			if (b->MustMove()){
+			if (b->MustMove()) {
 				freedBlocks.Add(b);
 				blocksInGrid[index] = nullptr;
 				lineCount[line]--;
@@ -100,10 +100,12 @@ void AGrid::FixBlockInGrid(ABlock* block)
 
 void AGrid::ResetGrid()
 {
-	for(int index = 0; index < blocksInGrid.Num(); index++)
+	for (int index = 0; index < blocksInGrid.Num(); index++)
 	{
-		if (blocksInGrid[index]->SilentDestroy()) {
-			blocksInGrid[index] = nullptr;
+		if (blocksInGrid[index]) {
+			if (blocksInGrid[index]->SilentDestroy()) {
+				blocksInGrid[index] = nullptr;
+			}
 		}
 	}
 }

@@ -93,7 +93,7 @@ void ABlock::SetGolden()
 //Only use if all blocs are going to be removed, to avoid errors with conected blocks
 bool ABlock::SilentDestroy()
 {
-	if (!movable) {
+	if (movable) {
 		return Destroy();
 	}
 	return false;

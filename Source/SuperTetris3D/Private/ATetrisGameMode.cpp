@@ -22,9 +22,7 @@ void ATetrisGameMode::BeginPlay()
 	spawner->AddBlockMaterials(blockMaterials);
 	spawner->goldenMaterial = goldenMaterial;
 
-	UE_LOG(LogTemp, Warning, TEXT("GameMode BeginPlay: Board and Spawner created**********************************************************************************************"));
-
-	BP_OnBeginPlay();
+	//UE_LOG(LogTemp, Warning, TEXT("GameMode BeginPlay: Board and Spawner created"));
 
 	Super::BeginPlay();
 
@@ -38,12 +36,11 @@ void ATetrisGameMode::StartGame()
 	}
 }
 
-void ATetrisGameMode::RestartGame()
+void ATetrisGameMode::RestartGame_Implementation()
 {
-	if (board && spawner)
+	if (board)
 	{
 		board->ResetBoard();
-		board->StartGame(gridDimensions.X, gridDimensions.Y, spawner);;
 	}
 }
 

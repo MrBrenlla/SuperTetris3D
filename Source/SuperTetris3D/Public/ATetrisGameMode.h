@@ -35,9 +35,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "GameModeManagement")
 	void StartGame();
 
-	UFUNCTION(BlueprintCallable, Category = "GameModeManagement")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "GameModeManagement")
 	void RestartGame();
 
+	void RestartGame_Implementation();
+	
 	UFUNCTION(BlueprintImplementableEvent, Category = "GameModeManagement")
 	void LoseGame();
 
@@ -49,10 +51,6 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = "GameSpawner")
 	ASpawner* spawner;
 
-	//By default, GameMode don´t run BeginPlay of extended Blueprints.
-	// Blueprints that extend this GameMode can implement this event to run custom BeginPlay logic
-	UFUNCTION(BlueprintImplementableEvent, Category = "GameModeBlueprintAdaptation")
-	void BP_OnBeginPlay();
 };
 
 
