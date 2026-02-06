@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "AGrid.h"
 #include "ABlock.h"
+#include "ASoundPlayer.h"
 #include "GameFramework/Actor.h"
 #include "ABoard.generated.h"
 
@@ -26,9 +27,15 @@ protected:
 
 public:
 
+	// A reference to the sound player actor responsible for playing game sounds, allowing the board to trigger sound effects.
+	UPROPERTY(BlueprintReadWrite, Category = "GameSound")
+	ASoundPlayer* soundPlayer;
+
+	// The speed multiplier for slow falling.
 	UPROPERTY(EditAnywhere, Category = "GameState")
 	float slowFallSpeed = 1;
 
+	// The speed multiplier for fast falling, which can be activated by player input to make pieces fall faster.
 	UPROPERTY(EditAnywhere, Category = "GameState")
 	float fastFallSpeed = 10;
 
@@ -69,6 +76,13 @@ public:
 	void ResetBoard();
 
 protected:
+
+	// An int to track the current tick sound variation, allowing for different sounds to be played on each tick for variety.
+	// 0 - normal tick
+	// 1 - tick with piece locked
+	// 2 - tick with line clear
+	UPROPERTY(BlueprintReadOnly, Category = "GameSound")
+	int actualTickSound = 0;
 
 	// A list of currently moving blocks that are part of the active piece or falling lines.
 	UPROPERTY(BlueprintReadOnly, Category = "GameState")

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{f84a17d0-6020-40da-a2c7-4382625ea65a}">
+		<property name="assetPath">
+			<value>Music/Walen - Gameboy (freetouse.com).mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>99.082448979591831</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{e66de68c-55cb-4ad5-a267-d1f8731ea7b8}</destination>
+		</relationship>
+	</object>
+</objects>

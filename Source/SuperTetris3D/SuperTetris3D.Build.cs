@@ -14,7 +14,8 @@ public class SuperTetris3D : ModuleRules
 			"Engine", 
 			"InputCore", 
 			"EnhancedInput",
-            "UMG"
+            "UMG",
+            "FMODStudio"
         });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

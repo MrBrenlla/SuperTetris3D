@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{1d360a52-cd7c-40c1-9e86-a859ff1a5229}">
+		<property name="assetPath">
+			<value>Sounds/Tick.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>96</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.077010416666666665</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{e66de68c-55cb-4ad5-a267-d1f8731ea7b8}</destination>
+		</relationship>
+	</object>
+</objects>

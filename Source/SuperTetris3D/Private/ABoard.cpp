@@ -7,6 +7,7 @@
 #include "AFloatingScore.h"
 #include "ATetrisGameState.h"
 #include "ATetrisGameMode.h"
+#include "FMODBlueprintStatics.h"
 
 ABoard::ABoard()
 {
@@ -35,11 +36,15 @@ void ABoard::BeginPlay()
 
 void ABoard::StartGame(int width, int height, ASpawner* newSpawner)
 {
+	soundPlayer->PlayInGameMusic();
+
 	grid->initializeGrid(width, height);
 
 	spawner = newSpawner;
 
 	gameStarted = true;
+
+	UFMODBlueprintStatics::SetGlobalParameterByName("PitchModification", 1);
 
 	GetWorld()->GetTimerManager().SetTimer(
 		fallTimerHandle,
@@ -52,6 +57,7 @@ void ABoard::StartGame(int width, int height, ASpawner* newSpawner)
 
 void ABoard::GameAction()
 {
+	actualTickSound = 0;
 
 	if (movingBlocks.IsEmpty()) SpawnBlocks();
 
@@ -59,12 +65,32 @@ void ABoard::GameAction()
 
 	if (movingBlocks.IsEmpty()) FindLines();
 
+
+	switch (actualTickSound)
+	{
+		case 0:
+			soundPlayer->PlayTickSound();
+			break;
+		case 1:
+			soundPlayer->PlayFixBlockSound();
+			break;
+		case 2:
+			soundPlayer->PlayClearLineSound();
+			break;
+	default:
+		break;
+	}
+
+	float speedMultiplier = pow(0.95, static_cast<float>(pieceCount) / 15.f);
+
+	UFMODBlueprintStatics::SetGlobalParameterByName("PitchModification", speedMultiplier);
+
 	if (gameStarted)
 		GetWorld()->GetTimerManager().SetTimer(
 			fallTimerHandle,
 			this,
 			&ABoard::GameAction,
-			(fallTime * pow(0.95, pieceCount / 15)) / actualFallSpeed,
+			fallTime * speedMultiplier / actualFallSpeed,
 			false
 		);
 }
@@ -108,10 +134,12 @@ void ABoard::MoveBlocksDown()
 		if (y <= 0) {
 			//UE_LOG(LogTemp, Warning, TEXT("--End Line--"));
 			b->StopMovement(this);
+			actualTickSound = 1;
 		}
 		else if (!grid->isEmpty(x, y - 1)) {
 			//UE_LOG(LogTemp, Warning, TEXT("--Block under--"));
 			b->StopMovement(this);
+			actualTickSound = 1;
 		}
 		//else UE_LOG(LogTemp, Warning, TEXT("--OK, can move--"));
 	}
@@ -136,6 +164,8 @@ void ABoard::FindLines()
 
 
 	if (completedLines.IsEmpty()) return;
+
+	actualTickSound = 2;
 
 	int newMult = completedLines.Num() * pow(2, consecutiveMult);
 	consecutiveMult++;
@@ -234,6 +264,8 @@ void ABoard::MoveBlock(float dir)
 		movementCooldownTime,
 		false
 	);
+
+	soundPlayer->PlayPlayerMoveSound();
 }
 
 void ABoard::AllowMovementAfterCooldown()
@@ -307,6 +339,8 @@ void ABoard::RotateBlock(float dir)
 		movingBlocksRangeX.Y = midX + (maxY - midY);
 	}
 
+	soundPlayer->PlayPlayerMoveSound();
+
 }
 
 void ABoard::setFastSpeed()
@@ -375,6 +409,8 @@ void ABoard::FixBlock(ABlock* block)
 void ABoard::LoseGame() {
 
 	gameStarted = false;
+
+	soundPlayer->PlayGameOverMusic();
 
 	GetWorld()->GetTimerManager().ClearTimer(fallTimerHandle);
 

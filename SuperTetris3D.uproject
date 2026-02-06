@@ -25,6 +25,10 @@
 		{
 			"Name": "RiderSourceCodeAccess",
 			"Enabled": false
+		},
+		{
+			"Name": "FMODStudioNiagara",
+			"Enabled": false
 		}
 	]
 }
