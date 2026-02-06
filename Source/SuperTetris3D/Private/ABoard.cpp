@@ -8,7 +8,6 @@
 #include "ATetrisGameState.h"
 #include "ATetrisGameMode.h"
 
-// Sets default values
 ABoard::ABoard()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -17,26 +16,14 @@ ABoard::ABoard()
 
 	consecutiveMult = 0;
 
-
-	static ConstructorHelpers::FClassFinder<UScoreWidget> WidgetBP(
-		TEXT("/Game/Blueprints/UI/W_Score")
-	);
-
-	if (WidgetBP.Succeeded())
-	{
-		scoreWidgetClass = WidgetBP.Class;
-	}
+	actualFallSpeed = slowFallSpeed;
 }
 
-// Called when the game starts or when spawned
 void ABoard::BeginPlay()
 {
 	Super::BeginPlay();
 
 	grid = GetWorld()->SpawnActor<AGrid>();
-
-	APlayerController* PC = GetWorld()->GetFirstPlayerController();
-	if (!PC || !scoreWidgetClass) return;
 
 	ATetrisGameState* GS = GetWorld()->GetGameState<ATetrisGameState>();
 	if (GS)
@@ -379,7 +366,7 @@ void ABoard::FixBlock(ABlock* block)
 {
 	grid->FixBlockInGrid(block);
 	movingBlocks.Remove(block);
-	if (block->y >= grid->gridHeight)
+	if (block->y >= grid->gridHeight && gameStarted)
 	{
 		LoseGame();
 	}

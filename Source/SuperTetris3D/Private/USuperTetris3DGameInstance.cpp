@@ -37,7 +37,6 @@ FString USuperTetris3DGameInstance::GetSelectedLanguage() const
 	return FString();
 }
 
-// Returns the index of the new score in the top 20 high scores list, or INDEX_NONE if it was not saved
 int USuperTetris3DGameInstance::SaveHighScore(int32 NewScore)
 {
 	if (TetrisSaveGameInstance)

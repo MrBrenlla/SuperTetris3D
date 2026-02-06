@@ -36,7 +36,6 @@ AWidgetFloatingText::AWidgetFloatingText()
 
     // Scale if needed
     WidgetComp->SetWorldScale3D(FVector(1, 1, 1));
-
 }
 
 void AWidgetFloatingText::SetText(FText text)

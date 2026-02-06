@@ -6,7 +6,6 @@
 #include "AFloatingScore.h"
 #include "UObject/ConstructorHelpers.h"
 
-// Sets default values
 ABlock::ABlock()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -23,7 +22,6 @@ ABlock::ABlock()
 
 }
 
-// Called when the game starts or when spawned
 void ABlock::BeginPlay()
 {
 
@@ -35,7 +33,6 @@ void ABlock::BeginPlay()
 	Super::BeginPlay();
 	
 }
-
 
 void ABlock::MakeStatic()
 {
@@ -90,7 +87,6 @@ void ABlock::SetGolden()
 	isGolden = true;
 }
 
-//Only use if all blocs are going to be removed, to avoid errors with conected blocks
 bool ABlock::SilentDestroy()
 {
 	if (movable) {

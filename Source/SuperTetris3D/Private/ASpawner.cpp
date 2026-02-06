@@ -1,13 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "ASpawner.h"
 #include "FPiece.h"
 #include "FPieceTemplate.h"
 #include "AWidgetFloatingText.h"
 #include "Internationalization/Text.h"
 
-// Sets default values
 ASpawner::ASpawner()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -15,7 +13,6 @@ ASpawner::ASpawner()
 	
 }
 
-//If newPieces = {} it will use the last ones used or the default if none were used
 void ASpawner::SetSpawner(int width, int height, TArray<FPieceTemplate> newPieces = {})
 {
 	gridWidth = width;
