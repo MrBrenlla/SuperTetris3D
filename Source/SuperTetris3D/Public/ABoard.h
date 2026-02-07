@@ -75,6 +75,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "GameInputs")
 	void ResetBoard();
 
+	// Pause the game by clearing timers and preventing game actions until resumed.
+	UFUNCTION(BlueprintCallable, Category = "GameOrders")
+	void PauseGame();
+
+	// Resume the game by re-enabling game actions and scheduling the next fall tick.
+	UFUNCTION(BlueprintCallable, Category = "GameOrders")
+	void ResumeGame();
+
 protected:
 
 	// An int to track the current tick sound variation, allowing for different sounds to be played on each tick for variety.
@@ -166,5 +174,9 @@ protected:
 
 	// Re-enable player lateral movement after the cooldown period.
 	void AllowMovementAfterCooldown();
-	
+
+	// A flag to track whether the player was able to move before the game was paused, used to restore the correct state when resuming the game.
+	bool playerCouldMoveBeforePause = false;
+
+	bool gameIsPaused = false;
 };

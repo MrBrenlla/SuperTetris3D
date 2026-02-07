@@ -69,4 +69,14 @@ void ASoundPlayer::PlayGameOverMusic()
 	}
 }
 
+void ASoundPlayer::PauseMusic()
+{
+	MusicAudioComponent->SetPaused(true);
+}
+
+void ASoundPlayer::ResumeMusic()
+{
+	MusicAudioComponent->SetPaused(false);
+}
+
 

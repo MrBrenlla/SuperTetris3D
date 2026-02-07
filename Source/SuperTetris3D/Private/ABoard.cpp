@@ -36,8 +36,6 @@ void ABoard::BeginPlay()
 
 void ABoard::StartGame(int width, int height, ASpawner* newSpawner)
 {
-	soundPlayer->PlayInGameMusic();
-
 	grid->initializeGrid(width, height);
 
 	spawner = newSpawner;
@@ -68,15 +66,15 @@ void ABoard::GameAction()
 
 	switch (actualTickSound)
 	{
-		case 0:
-			soundPlayer->PlayTickSound();
-			break;
-		case 1:
-			soundPlayer->PlayFixBlockSound();
-			break;
-		case 2:
-			soundPlayer->PlayClearLineSound();
-			break;
+	case 0:
+		soundPlayer->PlayTickSound();
+		break;
+	case 1:
+		soundPlayer->PlayFixBlockSound();
+		break;
+	case 2:
+		soundPlayer->PlayClearLineSound();
+		break;
 	default:
 		break;
 	}
@@ -372,6 +370,8 @@ void ABoard::ResetBoard()
 	}
 	movingBlocks.Empty();
 
+	UFMODBlueprintStatics::SetGlobalParameterByName("PitchModification", 1);
+
 	ATetrisGameState* GS = GetWorld()->GetGameState<ATetrisGameState>();
 	if (GS)
 	{
@@ -410,8 +410,6 @@ void ABoard::LoseGame() {
 
 	gameStarted = false;
 
-	soundPlayer->PlayGameOverMusic();
-
 	GetWorld()->GetTimerManager().ClearTimer(fallTimerHandle);
 
 	ATetrisGameMode* GS = GetWorld()->GetAuthGameMode<ATetrisGameMode>();
@@ -419,4 +417,32 @@ void ABoard::LoseGame() {
 	{
 		GS->LoseGame();
 	}
+}
+
+void ABoard::PauseGame()
+{
+	if (!gameStarted || gameIsPaused) return;
+	gameIsPaused = true;
+
+	if (GetWorld()->GetTimerManager().TimerExists(fallTimerHandle))
+		GetWorld()->GetTimerManager().PauseTimer(fallTimerHandle);
+	if (GetWorld()->GetTimerManager().TimerExists(movementCooldownTimerHandle))
+		GetWorld()->GetTimerManager().PauseTimer(movementCooldownTimerHandle);
+
+	playerCouldMoveBeforePause = playerCanMove;
+	playerCanMove = false;
+
+}
+
+void ABoard::ResumeGame()
+{
+	if (!gameStarted || !gameIsPaused) return;
+	gameIsPaused = false;
+
+	if (GetWorld()->GetTimerManager().TimerExists(fallTimerHandle))
+		GetWorld()->GetTimerManager().UnPauseTimer(fallTimerHandle);
+	if (GetWorld()->GetTimerManager().TimerExists(movementCooldownTimerHandle))
+		GetWorld()->GetTimerManager().UnPauseTimer(movementCooldownTimerHandle);
+
+	playerCanMove = playerCouldMoveBeforePause;
 }

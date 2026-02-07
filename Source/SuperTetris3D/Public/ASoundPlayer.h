@@ -46,6 +46,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Sound")
 	void PlayGameOverMusic();
 
+	// Pauses the currently playing music, allowing for temporary interruptions in the audio without stopping it completely.
+	UFUNCTION(BlueprintCallable, Category = "Sound")
+	void PauseMusic();
+
+	// Resumes the currently paused music, allowing it to continue playing from where it was paused.
+	UFUNCTION(BlueprintCallable, Category = "Sound")
+	void ResumeMusic();
+
 protected:
 
 	// A helper function to play a given FMOD event, used by the various sound-playing functions to trigger the appropriate sound effects or music.
