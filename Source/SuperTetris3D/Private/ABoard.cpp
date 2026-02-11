@@ -48,7 +48,7 @@ void ABoard::StartGame(int width, int height, ASpawner* newSpawner)
 		fallTimerHandle,
 		this,
 		&ABoard::GameAction,
-		(fallTime * pow(0.95, pieceCount / 15)) / actualFallSpeed,
+		fallTime,
 		false
 	);
 }
@@ -133,11 +133,13 @@ void ABoard::MoveBlocksDown()
 			//UE_LOG(LogTemp, Warning, TEXT("--End Line--"));
 			b->StopMovement(this);
 			actualTickSound = 1;
+			playerCanMove = false;
 		}
 		else if (!grid->isEmpty(x, y - 1)) {
 			//UE_LOG(LogTemp, Warning, TEXT("--Block under--"));
 			b->StopMovement(this);
 			actualTickSound = 1;
+			playerCanMove = false;
 		}
 		//else UE_LOG(LogTemp, Warning, TEXT("--OK, can move--"));
 	}
@@ -226,12 +228,14 @@ void ABoard::MoveBlock(float dir)
 
 	if (!gameStarted) return;
 
+	if (!playerCanMove || movementInCooldown) return;
+
 	if (dir > 0.5) dir = 1;
 	else if (dir < -0.5) dir = -1;
 	else return;
 
 	//UE_LOG(LogTemp, Warning, TEXT("Wanting to move %f"), dir);
-	if (!playerCanMove || movementInCooldown) return;
+	
 
 	UE_LOG(LogTemp, Warning, TEXT("Trying to move %d with max %d"), movingBlocksRangeX.Y, grid->gridWidth - 1);
 
@@ -259,7 +263,7 @@ void ABoard::MoveBlock(float dir)
 		movementCooldownTimerHandle,
 		this,
 		&ABoard::AllowMovementAfterCooldown,
-		movementCooldownTime,
+		movementCooldownTime * pow(0.95, static_cast<float>(pieceCount) / 15.f),
 		false
 	);
 
