@@ -40,7 +40,7 @@ A 3D Tetris-style game built with Unreal Engine (C++). This repository contains 
 This project includes the FMOD plugin in `Plugins/FMODStudio`. To use FMOD audio in-game:
 
 - Install FMOD Studio (matching supported integration version).
-- Place built `.bank` files in `Content/FMOD` (or configure the plugin settings to the bank output directory).
+- Place built `.bank` files in `Content/FMOD` (or configure FMOD studio to the bank output directory).
 - Use the FMOD Studio plugin `Validate FMOD` option in Editor if available.
 
 Even if you don't use FMOD, the plugin files must be in place or audio features that depend on banks will not function.
