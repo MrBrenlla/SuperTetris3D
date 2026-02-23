@@ -19,7 +19,7 @@ A 3D Tetris-style game built with Unreal Engine (C++). This repository contains 
 
 1. Clone the repository:
 
-   git clone <repo-url>
+  `git clone <repo-url>`
 
 2. Generate project files (if needed):
 
